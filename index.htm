@@ -1,18 +1,64 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="chat">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>chat</title>
-    <link href="css/main.csss" rel="stylesheet">
+    <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="css/main.css" rel="stylesheet">
     <script src="bower_components/jquery/dist/jquery.min.js"></script>
     <script src="bower_components/angular/angular.min.js"></script>
-    <script src="bower_components/bootstrap/js/dist/index.js"></script>
+    <script src="bower_components/angular-route/angular-route.min.js"></script>
+    <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="js/main.js"></script>
 </head>
 <body>
-    
+    <ul class="nav justify-content-end nav-pills border-bottom" ng-controller="nav">
+        <li class="nav-item">
+            <a href="#rooms" class="nav-link" ng-click="goPage('rooms')" id="rooms">Rooms</a>
+        </li>
+        <li class="nav-item">
+            <a href="#options" class="nav-link" ng-click="goPage('options')" id="options">Options</a>
+        </li>
+        <li class="nav-item">
+            <a href="#" class="nav-link active" ng-click="goPage('home')" id="home">Home</a> 
+        </li>
+    </ul>
+    <div class="container" ng-controller="main" ng-switch="page">
+        <div ng-switch-when="home">
+            <div class="alert alert-danger" style="margin: 5px;">
+                If you want chat, you must login!
+            </div>
+            <div style="padding: 20px; text-align: center;">
+                <label>
+                    Your nick: 
+                    <input type="text" class="form-control" ng-model="user.nickName" placeholder="login" id="login">
+                </label>
+                <br>
+                <label>
+                    Your password: 
+                    <input type="password" class="form-control" ng-model="user.password" placeholder="password" id="password">
+                </label>
+                <br>
+                <button class="btn btn-primary" ng-click="user.login()">
+                    Login
+                </button>
+                <hr>
+                <button class="btn btn-secondary" ng-click="user.guest()">
+                    Or login like guest
+                </button>
+            </div>
+        </div>
+        <div ng-switch-when="rooms">
+            r
+        </div>
+        <div ng-switch-when="options">
+            op
+        </div>
+        <div ng-switch-default>
+            Error page
+        </div>
+    </div>
 </body>
 </html>
