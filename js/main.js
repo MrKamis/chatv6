@@ -16,11 +16,20 @@
         $rootScope.$on('changePage', function (event, data) {
             $scope.page = data;
         });
+        $scope.loginForm = {
+            block: false,
+            keyPress: function (e) {
+                if (e.key == 'Enter') {
+                    $scope.user.login();
+                }
+            }
+        };
         $scope.user = {
             loged: false,
             nickName: '',
             password: '',
             login: function () {
+                $scope.loginForm.block = true;
                 if ($scope.user.nickName == '') {
                     $('#login').addClass('is-invalid');
                     return $timeout(function () {
@@ -45,7 +54,23 @@
                     })
                 })
                     .then(function (r) {
-                    console.log(r.data);
+                    if (r.data == 5) {
+                        $('#login').addClass('is-invalid');
+                        return $timeout(function () {
+                            $('#login').removeClass('is-invalid');
+                        }, 2000);
+                    }
+                    else if (r.data == 10) {
+                        $('#password').addClass('is-invalid');
+                        return $timeout(function () {
+                            $('#password').removeClass('is-invalid');
+                        }, 2000);
+                    }
+                    else {
+                        $scope.page = 'home';
+                        $scope.user.loged = true;
+                    }
+                    $scope.loginForm.block = false;
                 });
             },
             guest: function () {

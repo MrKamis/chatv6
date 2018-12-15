@@ -11,7 +11,7 @@
     <script src="bower_components/angular/angular.min.js"></script>
     <script src="bower_components/angular-route/angular-route.min.js"></script>
     <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-    <script src="js/main.js"></script>
+    <script src="js/main.js#2"></script>
 </head>
 <body>
     <ul class="nav justify-content-end nav-pills border-bottom" ng-controller="nav">
@@ -27,27 +27,41 @@
     </ul>
     <div class="container" ng-controller="main" ng-switch="page">
         <div ng-switch-when="home">
-            <div class="alert alert-danger" style="margin: 5px;">
-                If you want chat, you must login!
+            <div ng-hide="user.loged">
+                <div class="alert alert-danger" style="margin: 5px;">
+                    If you want chat, you must login!
+                </div>
+                <div style="padding: 20px; text-align: center;">
+                    <label>
+                        Your nick: 
+                        <input type="text" class="form-control" ng-model="user.nickName" placeholder="login" id="login" ng-keypress="loginForm.keyPress($event)">
+                    </label>
+                    <br>
+                    <label>
+                        Your password: 
+                        <input type="password" class="form-control" ng-model="user.password" placeholder="password" id="password" ng-keypress="loginForm.keyPress($event)">
+                    </label>
+                    <br>
+                    <button class="btn btn-primary" ng-click="user.login()">
+                        Login
+                    </button>
+                    <hr>
+                    <button class="btn btn-secondary" ng-click="user.guest()">
+                        Or login like guest
+                    </button>
+                </div>
             </div>
-            <div style="padding: 20px; text-align: center;">
-                <label>
-                    Your nick: 
-                    <input type="text" class="form-control" ng-model="user.nickName" placeholder="login" id="login">
-                </label>
-                <br>
-                <label>
-                    Your password: 
-                    <input type="password" class="form-control" ng-model="user.password" placeholder="password" id="password">
-                </label>
-                <br>
-                <button class="btn btn-primary" ng-click="user.login()">
-                    Login
-                </button>
-                <hr>
-                <button class="btn btn-secondary" ng-click="user.guest()">
-                    Or login like guest
-                </button>
+            <div ng-show="user.loged" style="margin: 5px;">
+                <div class="alert alert-primary">
+                    Zalogowano poprawnie jako <i>@{{user.nickName}}</i>
+                </div>
+                <div class="media" style="text-align: center;">
+                    <img src="#" alt="" style="width: 64px; height: 64px;" class="align-self-center">
+                    <div class="media-body">
+                        <h3 class="mt-0">{{user.nickName}}</h3>
+                        <p>Twój profil..</p>
+                    </div>
+                </div>
             </div>
         </div>
         <div ng-switch-when="rooms">

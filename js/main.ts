@@ -1,7 +1,7 @@
 (() => {
     angular.module('chat', ['ngRoute'])
         .controller('nav', ($scope: any, $rootScope: any, $route: any) => {
-            $scope.goPage = page => {
+            $scope.goPage = (page: any) => {
                 $rootScope.$broadcast('changePage', page);
                 $('.nav-link').removeClass('active');
                 $('#' + page).addClass('active');
@@ -12,15 +12,25 @@
             if($scope.page == ''){
                 $scope.page = 'home';
             }
-            $rootScope.$on('changePage', (event, data) => {
+            $rootScope.$on('changePage', (event: any, data: any) => {
                 $scope.page = data;
             });
+
+            $scope.loginForm = {
+                block: false,
+                keyPress: (e: any) => {
+                    if(e.key == 'Enter'){
+                        $scope.user.login();
+                    }
+                }
+            };
 
             $scope.user = {
                 loged: false,
                 nickName: '',
                 password: '',
                 login: () => {
+                    $scope.loginForm.block = true;
                     if($scope.user.nickName == ''){
                         $('#login').addClass('is-invalid');
                         return $timeout(() => {
@@ -44,8 +54,22 @@
                             password: $scope.user.password
                         })
                     })
-                        .then(r => {
-                            console.log(r.data)
+                        .then((r: any) => {
+                            if(r.data == 5){
+                                $('#login').addClass('is-invalid');
+                                return $timeout(() => {
+                                    $('#login').removeClass('is-invalid');
+                                }, 2000);
+                            }else if(r.data == 10){
+                                $('#password').addClass('is-invalid');
+                                return $timeout(() => {
+                                    $('#password').removeClass('is-invalid');
+                                }, 2000);
+                            }else{
+                                $scope.page = 'home';
+                                $scope.user.loged = true;
+                            }
+                            $scope.loginForm.block = false;
                     });
                 },
                 guest: () => {
