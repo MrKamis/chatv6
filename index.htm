@@ -11,7 +11,7 @@
     <script src="bower_components/angular/angular.min.js"></script>
     <script src="bower_components/angular-route/angular-route.min.js"></script>
     <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-    <script src="js/main.js#2"></script>
+    <script src="js/main.js#3"></script>
 </head>
 <body>
     <ul class="nav justify-content-end nav-pills border-bottom" ng-controller="nav">
@@ -47,19 +47,24 @@
                     </button>
                     <hr>
                     <button class="btn btn-secondary" ng-click="user.guest()">
-                        Or login like guest
+                        Or login as guest
                     </button>
                 </div>
             </div>
             <div ng-show="user.loged" style="margin: 5px;">
                 <div class="alert alert-primary">
-                    Zalogowano poprawnie jako <i>@{{user.nickName}}</i>
+                    You logged as <i>@{{user.nickName}}</i>
                 </div>
-                <div class="media" style="text-align: center;">
+                <div class="media" style="text-align: center;" ng-hide="user.guest">
                     <img src="#" alt="" style="width: 64px; height: 64px;" class="align-self-center">
                     <div class="media-body">
                         <h3 class="mt-0">{{user.nickName}}</h3>
-                        <p>Twój profil..</p>
+                        <p>Your profile...</p>
+                    </div>
+                </div>
+                <div ng-show="user.guestLogin">
+                    <div class="alert alert-warning" style="margin: 5px;">
+                        Guest has not a profile.
                     </div>
                 </div>
             </div>
@@ -68,10 +73,22 @@
             r
         </div>
         <div ng-switch-when="options">
-            op
+            <div ng-hide="user.loged">
+                <div class="alert alert-danger" style="margin: 5px;">
+                    If you want custom your options, login!
+                </div>
+            </div>
+            <div ng-show="user.loged">
+                <label>
+                    Change your nickname: 
+                </label>
+            </div>
         </div>
         <div ng-switch-default>
-            Error page
+            <div class="alert alert-danger" style="margin: 5px;">
+                <h2>Error 404</h2>
+                This page doesn't exist!
+            </div>
         </div>
     </div>
 </body>

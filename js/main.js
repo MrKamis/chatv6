@@ -74,7 +74,25 @@
                 });
             },
             guest: function () {
-            }
+                $scope.loginForm.block = true;
+                $http({
+                    method: 'POST',
+                    url: 'php/guest.php',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    data: $.param({
+                        num: Math.random() * 10 + 5
+                    })
+                })
+                    .then(function (r) {
+                    $scope.user.loged = true;
+                    $scope.user.nickName = r.data;
+                    $scope.user.guestLogin = true;
+                    $scope.loginForm.block = false;
+                });
+            },
+            guestLogin: false
         };
     });
 })();
